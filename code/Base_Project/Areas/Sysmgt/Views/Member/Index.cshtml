@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "會員管理";
+    ViewBag.ID = "Member";
 }
 
 <h3>@ViewBag.Title</h3>
@@ -29,5 +30,10 @@
     </div>
 </form>
 @section script{
-    @{Html.RenderPartial("_PageList", Model); }
+    <script>
+        $(function(){
+            focusMenu("@ViewBag.ID")
+        })
+    </script>
+    @{Html.RenderPartial("~/Areas/Sysmgt/Views/Shared/Common/_Js.cshtml", Model); }
 }

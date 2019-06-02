@@ -33,33 +33,41 @@ namespace Base_Project.Areas.Sysmgt.Controllers
         {
             using (DBEntities db = new DBEntities())
             {
-                var members = db.MEMBERs.Select(x => x);
-                if (!String.IsNullOrEmpty(model.Keyword))
+                try
                 {
-                    members = members.Where(x => x.EMAIL.Contains(model.Keyword)
-                    || x.NAME.Contains(model.Keyword)
-                    );
-                }
-
-                model.TotalCount = members.Count();
-                model.PageSize = 10;
-
-                var totalPage = (model.TotalCount + model.PageSize - 1) / model.PageSize;
-                var startRow = model.PageSize * (model.PageIndex - 1);
-                var num = startRow + 1;
-
-                members = members.OrderByDescending(x => x.CDT).Skip(startRow).Take(model.PageSize);
-
-                foreach (var item in members.ToList())
-                {
-                    model.Items.Add(new Item()
+                    var members = db.MEMBERs.Select(x => x);
+                    if (!String.IsNullOrEmpty(model.Keyword))
                     {
-                        Num = num++.ToString(),
-                        SId = item.SID,
-                        Email = item.EMAIL,
-                        Mdt = item.MDT.ToString("yyyy年MM月dd日 HH:mm:ss"),
-                        Name = item.NAME,
-                    });
+                        members = members.Where(x => x.EMAIL.Contains(model.Keyword)
+                        || x.NAME.Contains(model.Keyword)
+                        );
+                    }
+
+                    model.TotalCount = members.Count();
+                    model.PageSize = 10;
+
+                    var totalPage = (model.TotalCount + model.PageSize - 1) / model.PageSize;
+                    var startRow = model.PageSize * (model.PageIndex - 1);
+                    var num = startRow + 1;
+
+                    members = members.OrderByDescending(x => x.CDT).Skip(startRow).Take(model.PageSize);
+
+                    foreach (var item in members.ToList())
+                    {
+                        model.Items.Add(new PageListItem()
+                        {
+                            Num = num++.ToString(),
+                            SId = item.SID,
+                            Email = item.EMAIL,
+                            Mdt = item.MDT.ToString("yyyy年MM月dd日 HH:mm:ss"),
+                            Name = item.NAME,
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex.Message);
+                    throw ex;
                 }
             }
         }
@@ -77,24 +85,32 @@ namespace Base_Project.Areas.Sysmgt.Controllers
             {
                 using (DBEntities db = new DBEntities())
                 {
-                    MEMBER mEMBER = db.MEMBERs.Find(id);
-                    if (mEMBER == null)
+                    try
                     {
-                        return HttpNotFound();
-                    }
+                        MEMBER mEMBER = db.MEMBERs.Find(id);
+                        if (mEMBER == null)
+                        {
+                            return HttpNotFound();
+                        }
 
-                    //帶入資料
-                    model.CDT = mEMBER.CDT;
-                    model.CSID = mEMBER.CSID;
-                    model.EMAIL = mEMBER.EMAIL;
-                    model.ENABLED = mEMBER.ENABLED;
-                    model.FBID = mEMBER.FBID;
-                    model.GOOGLEID = mEMBER.GOOGLEID;
-                    model.MDT = mEMBER.MDT;
-                    model.MSID = mEMBER.MSID;
-                    model.NAME = mEMBER.NAME;
-                    model.SID = mEMBER.SID;
-                    model.VERIFY = mEMBER.VERIFY;
+                        //帶入資料
+                        model.CDT = mEMBER.CDT;
+                        model.CSID = mEMBER.CSID;
+                        model.EMAIL = mEMBER.EMAIL;
+                        model.ENABLED = mEMBER.ENABLED;
+                        model.FBID = mEMBER.FBID;
+                        model.GOOGLEID = mEMBER.GOOGLEID;
+                        model.MDT = mEMBER.MDT;
+                        model.MSID = mEMBER.MSID;
+                        model.NAME = mEMBER.NAME;
+                        model.SID = mEMBER.SID;
+                        model.VERIFY = mEMBER.VERIFY;
+                    }
+                    catch(Exception ex)
+                    {
+;                       logger.Error(ex.Message);
+                        throw ex;
+                    }
                 }
 
                 return View(model);
@@ -106,10 +122,6 @@ namespace Base_Project.Areas.Sysmgt.Controllers
         public JsonResult Edit(EditViewModel model)
         {
             List<ErrorMsg> ErrorMsgs = new List<ErrorMsg>();
-            if (!ModelState.IsValid)
-            {
-                ErrorMsgs.AddRange(ErrorHelper.getErrorMsgs(ModelState));
-            }
             //新增
             if (String.IsNullOrEmpty(model.SID))
             {
@@ -144,8 +156,16 @@ namespace Base_Project.Areas.Sysmgt.Controllers
                 }
                 using (DBEntities db = new DBEntities())
                 {
-                    db.MEMBERs.Add(member);
-                    db.SaveChanges();
+                    try
+                    {
+                        db.MEMBERs.Add(member);
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMsgs.Add(new ErrorMsg() { ErrorID = "Utility", ErrorText = ex.Message });
+                        return Json(new { Success = false, ErrorMsgs });
+                    }
                 }
             }
             //修改

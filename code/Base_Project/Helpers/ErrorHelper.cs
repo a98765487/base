@@ -5,9 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Web.Mvc;
+using System.Web;
 
 namespace Base_Project.Helpers
 {
+    public class ModelStateValidationFilter : System.Web.Mvc.ActionFilterAttribute
+    {
+        public override void OnActionExecuting(System.Web.Mvc.ActionExecutingContext filterContext)
+        {
+            if (!filterContext.Controller.ViewData.ModelState.IsValid)
+            {
+                var errors = ErrorHelper.getErrorMsgs(filterContext.Controller.ViewData.ModelState);
+                var errorMsg = string.Empty;
+                foreach(var error in errors)
+                {
+                    errorMsg += string.Format("<p>{0}</p>", error.ErrorText);
+                }
+                throw new HttpException(500, errorMsg);
+            }
+        }
+    }
     public static class ErrorHelper
     {
         /// <summary>

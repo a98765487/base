@@ -1,7 +1,8 @@
 ﻿@model Base_Project.Models.Member.EditViewModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "會員管理";
+    ViewBag.ID = "Member";
 }
 
 <form id="Form">
@@ -35,7 +36,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.PWD, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.PWD, new { htmlAttributes = new { @class = "form-control password" , @type = "password" } })
+                    @Html.EditorFor(model => model.PWD, new { htmlAttributes = new { @class = "form-control password", @type = "password" } })
                 </div>
             </div>
 
@@ -67,15 +68,15 @@
                 </div>
             }
 
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <input type="submit" value="送出" class="btn btn-default" id="Send" />
-                    </div>
-                </div>
-
-                    <div class="error-utility text-danger"></div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="submit" value="送出" class="btn btn-default" id="Send" />
                 </div>
             </div>
+
+            <div class="error-utility text-danger"></div>
+        </div>
+    </div>
 </form>
 
 <div>
@@ -83,13 +84,19 @@
 </div>
 
 @section script{
-<script>
+    @{Html.RenderPartial("~/Areas/Sysmgt/Views/Shared/Common/_Js.cshtml", Model); }
+    <script>
+        $(function(){
+            focusMenu("@ViewBag.ID")
+        })
     $("#Send").click(function (e) {
         e.preventDefault()
 
         if (!$("#Form").valid()) {
             return
         }
+
+        showLoading()
 
         var form = $("#Form").serialize()
 
@@ -98,10 +105,11 @@
             url: "@Url.Action("Edit")",
             data: form,
             success: function (data) {
+                hideLoading()
                 if (data.Success) {
                     location.href = "@Url.Action("Index")"
                 }
-                var errorMsgs = data.ErrorMsgs
+                showError(data.ErrorMsgs)
                 $(".error-utility").empty()
                 errorMsgs.forEach(function (error) {
                     $(".error-utility").append("<p>" + error.ErrorText + "<p>")
@@ -109,10 +117,11 @@
 
             },
             fail: function (ex) {
-                console.log(ex)
+                hideLoading()
+                showError(ex.reponseText)
             }
         })
     })
-</script>   
+    </script>
 }
 

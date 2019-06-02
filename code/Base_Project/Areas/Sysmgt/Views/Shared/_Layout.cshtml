@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model Base_Project.Models.BaseViewModel
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -17,25 +18,25 @@
         <div class="collapse navbar-collapse sidebar">
             <ul class="flex-column navbar-nav w-100 justify-content-between">
                 <li class="nav-item">
-                    <a class="nav-link pl-0" href="#"><span>管理員</span></a>
+                    <a class="nav-link pl-0" id="SysUser" href=""><span>管理員</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link pl-0" href="#"><span class="">商品</span></a>
+                    <a class="nav-link pl-0" id="Product" href="#"><span class="">商品</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link pl-0" href="#"><span class="">會員</span></a>
+                    <a class="nav-link pl-0" id="Member" href="#"><span class="">會員</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link pl-0 dropdown-toggle text-nowrap" href="#m1" data-parent="#navbar1" data-toggle="collapse" data-target="#m1" aria-expanded="false">
+                    <a class="nav-link pl-0 dropdown-toggle text-nowrap" id="Order" href="#Order" data-parent="#navbar1" data-toggle="collapse" data-target="#OrderFolder" aria-expanded="false">
                         <span>訂單</span>
                     </a>
-                    <div class="collapse" id="m1">
+                    <div class="collapse" id="OrderFolder">
                         <ul class="flex-column nav">
                             <li>
-                                <a class="nav-link px-0 text-truncate" href="#">Sub</a>
+                                <a class="nav-link px-0 text-truncate" id="Order_List" href="#">訂單列表</a>
                             </li>
                             <li>
-                                <a class="nav-link px-0 text-truncate" href="#">Sub longer</a>
+                                <a class="nav-link px-0 text-truncate" id="Order_Status" href="#">狀態查詢</a>
                             </li>
                         </ul>
                     </div>
@@ -48,8 +49,11 @@
     </main>
     <hr />
     <footer>
-        <p>&copy; @DateTime.Now.Year - 基底專案</p>
+        <p>&copy; @DateTime.Now.Year - @ViewBag.Title</p>
     </footer>
+    <div class="loading-area">
+        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    </div>
 
     @*bootstrap4*@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -59,6 +63,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
     <script src="~/Content/Js/jquery.valida.custom.js"></script>
-        @RenderSection("script",false)
+    @RenderSection("script", false)
 </body>
 </html>

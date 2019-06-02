@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Base_Project.Interface;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,11 +11,11 @@ using System.Web.Mvc;
 namespace Base_Project.Models.Member
 {
     #region IndexViewModel
-    public class IndexViewModel : BaseViewModel
+    public class IndexViewModel : PageListViewModel
     {
-        public List<Item> Items { get; set; } = new List<Item>();
+        public List<PageListItem> Items { get; set; } = new List<PageListItem>();
     }
-    public class Item
+    public class PageListItem : IPageListItem
     {
         /// <summary>
         /// 項次

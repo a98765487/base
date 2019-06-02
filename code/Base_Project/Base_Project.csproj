@@ -52,12 +52,18 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.6.4\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -138,6 +144,8 @@
     <Compile Include="Areas\Sysmgt\Controllers\ErrorController.cs" />
     <Compile Include="Areas\Sysmgt\Controllers\HomeController.cs" />
     <Compile Include="Areas\Sysmgt\Controllers\SysUserController.cs" />
+    <Compile Include="Areas\Sysmgt\Models\PageListViewModel.cs" />
+    <Compile Include="Areas\Sysmgt\Models\BaseViewModel.cs" />
     <Compile Include="Areas\Sysmgt\SysmgtAreaRegistration.cs" />
     <Compile Include="Areas\Sysmgt\Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -178,10 +186,12 @@
     <Compile Include="Helpers\MemberHelper.cs" />
     <Compile Include="Helpers\SystemIdHelper.cs" />
     <Compile Include="Areas\Sysmgt\Models\Member\MemberViewModel.cs" />
+    <Compile Include="Interface\IPageList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Css\all.css" />
+    <Content Include="Content\Js\functions.js" />
     <Content Include="Entity\DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DB.edmx</DependentUpon>
@@ -233,6 +243,14 @@
       <DependentUpon>DB.edmx</DependentUpon>
     </Content>
     <Content Include="Areas\Sysmgt\Views\Member\_PageList.cshtml" />
+    <Content Include="Areas\Sysmgt\Views\Shared\Common\_JS.cshtml" />
+    <Content Include="Areas\Sysmgt\Views\Shared\Common\_Pagination.cshtml" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <Content Include="Areas\Sysmgt\Views\Member\Edit.cshtml" />
     <Content Include="Areas\Sysmgt\Views\Member\Index.cshtml" />

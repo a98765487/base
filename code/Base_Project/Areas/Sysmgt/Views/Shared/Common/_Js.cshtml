@@ -1,4 +1,4 @@
-﻿@model Base_Project.Models.Member.IndexViewModel
+﻿@model Base_Project.Models.BaseViewModel
 @{ 
     Layout = null;
 }
@@ -11,26 +11,27 @@
             e.preventDefault()
             if ($("input[name=selectedItems]:checked").length == 0) {
                 alert("請選擇至少一筆資料")
+                return
             }
 
             var selectItems = $('input:checkbox[name=selectedItems]:checked').map(function () { return $(this).val(); }).get();
+
+            showLoading()
 
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("Delete")",
                 data: "selectItems=" + selectItems.join(),
                 success: function (data) {
+                    hideLoading()
                     if (data.Success) {
                         location.href = "@Url.Action("Index")"
                     }
-                    var errorMsgs = data.ErrorMsgs
-                    $(".error-utility").empty()
-                    errorMsgs.forEach(function (error) {
-                        $(".error-utility").append("<p>" + error.ErrorText + "<p>")
-                    })
+                    showError(data.ErrorMsgs)
                 },
                 fail: function (ex) {
-                    console.log(ex)
+                    hideLoading()
+                    showError(ex)
                 }
             })
         })
@@ -39,6 +40,7 @@
         })
     })
     function getList(page = 1) {
+        showLoading()
         $("#PageIndex").val(page)
         var form = $("#Form").serialize()
         $.ajax({
@@ -46,11 +48,26 @@
             url: "@Url.Action("GetList")",
             data: form,
             success: function (html) {
+                hideLoading()
                 $("#PageListContainer").empty().append(html)
             },
             fail: function (ex) {
-                console.log(ex)
+                hideLoading()
+                showError(ex.reponseText)
             }
         })
     }
+    function focusMenu(id) {
+        if ($("#" + id).closest(".dropdown-toggle")) {
+            $("#" + id).addClass("active")
+            let parent = id.split("_")[0]
+            $("#" + parent).addClass("active")
+            $("#" + id).closest(".collapse").addClass("show")
+        }
+        else {
+            $("#" + id).addClass("active")
+        }
+    }
+</script>
+<script src="~/Content/Js/functions.js">
 </script>

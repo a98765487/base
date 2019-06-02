@@ -1,4 +1,4 @@
-﻿@model Base_Project.Models.BaseViewModel
+﻿@model Base_Project.Models.Member.IndexViewModel
 @{
     Layout = null;
 }
@@ -46,4 +46,4 @@
     </tbody>
 </table>
 
-@{Html.RenderPartial("_Pagination", Model); }
+@{Html.RenderPartial("~/Areas/Sysmgt/Views/Shared/Common/_Pagination.cshtml", Model); }
