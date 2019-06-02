@@ -8,122 +8,249 @@ using System.Web;
 using System.Web.Mvc;
 using Base_Project.Entity;
 using EntityState = System.Data.Entity.EntityState;
-using Base_Project.Models;
+using Base_Project.Models.SysUser;
+using Base_Project.Helpers;
 
 namespace Base_Project.Areas.Sysmgt.Controllers
 {
-    public class SysUserController : Controller
+    public class SysUserController : BaseController
     {
-        private DBEntities db = new DBEntities();
-
-        // GET: Sysmgt/SYS_USER
+        #region Index
         public ActionResult Index()
         {
-            return View(db.SYS_USER.ToList());
-        }
+            var model = new IndexViewModel();
 
-        // GET: Sysmgt/SYS_USER/Details/5
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            SYS_USER sYS_USER = db.SYS_USER.Find(id);
-            if (sYS_USER == null)
-            {
-                return HttpNotFound();
-            }
-            return View(sYS_USER);
-        }
+            GetPageList(model);
 
-        // GET: Sysmgt/SYS_USER/Create
-        public ActionResult Create()
-        {
-            return View();
+            return View(model);
         }
-
-        // POST: Sysmgt/SYS_USER/Create
-        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
-        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
-        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SID,CSID,MSID,CDT,MDT,ENABLED,EMAIL,ACCT,PWD,HASHKEY,NAME")] SYS_USER sYS_USER)
+        public ActionResult GetList(IndexViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                db.SYS_USER.Add(sYS_USER);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(sYS_USER);
+            GetPageList(model);
+            return View("_PageList", model);
         }
+        private void GetPageList(IndexViewModel model)
+        {
+            using (DBEntities db = new DBEntities())
+            {
+                try
+                {
+                    var sysUsers = db.SYS_USER.Select(x => x);
+                    if (!String.IsNullOrEmpty(model.Keyword))
+                    {
+                        sysUsers = sysUsers.Where(x => x.EMAIL.Contains(model.Keyword)
+                        || x.NAME.Contains(model.Keyword)
+                        || x.ACCT.Contains(model.Keyword)
+                        );
+                    }
 
-        // GET: Sysmgt/SYS_USER/Edit/5
+                    model.TotalCount = sysUsers.Count();
+                    model.PageSize = 10;
+
+                    var totalPage = (model.TotalCount + model.PageSize - 1) / model.PageSize;
+                    var startRow = model.PageSize * (model.PageIndex - 1);
+                    var num = startRow + 1;
+
+                    sysUsers = sysUsers.OrderByDescending(x => x.CDT).Skip(startRow).Take(model.PageSize);
+
+                    foreach (var item in sysUsers.ToList())
+                    {
+                        model.Items.Add(new PageListItem()
+                        {
+                            Num = num++.ToString(),
+                            SId = item.SID,
+                            Acct = item.ACCT,
+                            Mdt = item.MDT.ToString("yyyy年MM月dd日 HH:mm:ss"),
+                            Name = item.NAME,
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex.Message);
+                    throw ex;
+                }
+            }
+        }
+        #endregion
+
+        #region Edit
         public ActionResult Edit(string id)
         {
-            if (id == null)
+            var model = new EditViewModel();
+            if (String.IsNullOrEmpty(id))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View(model);
             }
-            SYS_USER sYS_USER = db.SYS_USER.Find(id);
-            if (sYS_USER == null)
+            else
             {
-                return HttpNotFound();
+                using (DBEntities db = new DBEntities())
+                {
+                    try
+                    {
+                        SYS_USER sysUser = db.SYS_USER.Find(id);
+                        if (sysUser == null)
+                        {
+                            return HttpNotFound();
+                        }
+
+                        //帶入資料
+                        model.CDT = sysUser.CDT;
+                        model.CSID = sysUser.CSID;
+                        model.EMAIL = sysUser.EMAIL;
+                        model.ACCT = sysUser.ACCT;
+                        model.ENABLED = sysUser.ENABLED;
+                        model.MDT = sysUser.MDT;
+                        model.MSID = sysUser.MSID;
+                        model.NAME = sysUser.NAME;
+                        model.SID = sysUser.SID;
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex.Message);
+                        throw ex;
+                    }
+                }
+
+                return View(model);
             }
-            return View(sYS_USER);
         }
 
-        // POST: Sysmgt/SYS_USER/Edit/5
-        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
-        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SID,CSID,MSID,CDT,MDT,ENABLED,EMAIL,ACCT,PWD,HASHKEY,NAME")] SYS_USER sYS_USER)
+        public JsonResult Edit(EditViewModel model)
         {
-            if (ModelState.IsValid)
+            List<ErrorMsg> ErrorMsgs = new List<ErrorMsg>();
+            //新增
+            if (String.IsNullOrEmpty(model.SID))
             {
-                db.Entry(sYS_USER).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(sYS_USER);
-        }
+                //新增要輸入密碼
+                if (String.IsNullOrEmpty(model.PWD))
+                {
+                    ErrorMsgs.Add(new ErrorMsg() { ErrorID = "PWD", ErrorText = "請輸入密碼" });
+                }
 
-        // GET: Sysmgt/SYS_USER/Delete/5
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            SYS_USER sYS_USER = db.SYS_USER.Find(id);
-            if (sYS_USER == null)
-            {
-                return HttpNotFound();
-            }
-            return View(sYS_USER);
-        }
+                using (DBEntities db = new DBEntities())
+                {
+                    var existUser = db.SYS_USER.AsNoTracking().Where(x => x.ACCT == model.ACCT).SingleOrDefault();
+                    if (existUser != null) {
+                        ErrorMsgs.Add(new ErrorMsg() { ErrorID = "ACCT", ErrorText = "使用者帳號已經使用" });
+                    }
+                }
 
-        // POST: Sysmgt/SYS_USER/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            SYS_USER sYS_USER = db.SYS_USER.Find(id);
-            db.SYS_USER.Remove(sYS_USER);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+                model.SID = SystemIdHelper.getNewSId();
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
+                SYS_USER sysUser = new SYS_USER()
+                {
+                    SID = model.SID,
+                    CDT = DateTime.Now,
+                    MDT = DateTime.Now,
+                    CSID = SystemIdHelper.getEmptySId(),
+                    MSID = SystemIdHelper.getEmptySId(),
+                    ENABLED = model.ENABLED,
+                    EMAIL = model.EMAIL,
+                    NAME = model.NAME,
+                    ACCT = model.ACCT,
+                    HASHKEY = MemberHelper.getHashKey(),
+                    PWD = MemberHelper.getHashPwd(model.PWD + model.HASHKEY),
+                };
+
+                if (ErrorMsgs.Count > 0)
+                {
+                    return Json(new { Success = false, ErrorMsgs });
+                }
+                using (DBEntities db = new DBEntities())
+                {
+                    try
+                    {
+                        db.SYS_USER.Add(sysUser);
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMsgs.Add(new ErrorMsg() { ErrorID = "Utility", ErrorText = ex.Message });
+                        return Json(new { Success = false, ErrorMsgs });
+                    }
+                }
             }
-            base.Dispose(disposing);
+            //修改
+            else
+            {
+                //查詢既有資料
+                using (DBEntities db = new DBEntities())
+                {
+                    var oldInfo = db.SYS_USER.AsNoTracking().Where(x => x.SID == model.SID).Single();
+                    SYS_USER newInfo = new SYS_USER()
+                    {
+                        SID = model.SID,
+                        CDT = oldInfo.CDT,
+                        MDT = DateTime.Now,
+                        CSID = oldInfo.CSID,
+                        MSID = SystemIdHelper.getEmptySId(),
+                        ENABLED = model.ENABLED,
+                        EMAIL = model.EMAIL,
+                        NAME = model.NAME,
+                        HASHKEY = oldInfo.HASHKEY,
+                        PWD = oldInfo.PWD,
+                        ACCT = oldInfo.ACCT,
+                    };
+                    if (!String.IsNullOrEmpty(model.PWD))
+                    {
+                        newInfo.HASHKEY = MemberHelper.getHashKey();
+                        newInfo.PWD = MemberHelper.getHashPwd(model.PWD + model.HASHKEY);
+                    }
+
+                    if (ErrorMsgs.Count > 0)
+                    {
+                        return Json(new { Success = false, ErrorMsgs });
+                    }
+                    db.Entry(newInfo).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+            return Json(new { Success = true });
         }
+        #endregion
+
+        #region Delete
+        public JsonResult Delete(FormCollection form)
+        {
+            List<ErrorMsg> ErrorMsgs = new List<ErrorMsg>();
+
+            if (String.IsNullOrEmpty(form["selectItems"]))
+            {
+                ErrorMsgs.Add(new ErrorMsg() { ErrorID = "Utility", ErrorText = "請選擇至少一個項目" });
+                return Json(new { Success = false, ErrorMsgs });
+            }
+
+            foreach (var sid in form["selectItems"].Split(','))
+            {
+                if (!SystemIdHelper.checkSId(sid))
+                {
+                    ErrorMsgs.Add(new ErrorMsg() { ErrorID = "Utility", ErrorText = "包含不合法的系統代號" });
+                    return Json(new { Success = false, ErrorMsgs });
+                }
+            }
+            foreach (var sid in form["selectItems"].Split(','))
+            {
+                using (DBEntities db = new DBEntities())
+                {
+                    try
+                    {
+                        var sysUser = db.SYS_USER.Single(x => x.SID == sid);
+                        db.SYS_USER.Remove(sysUser);
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorMsgs.Add(new ErrorMsg() { ErrorID = "Utility", ErrorText = ex.Message });
+                        return Json(new { Success = false, ErrorMsgs });
+                    }
+                }
+            }
+            return Json(new { Success = true });
+        }
+        #endregion
     }
 }

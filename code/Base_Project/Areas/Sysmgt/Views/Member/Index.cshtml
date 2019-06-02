@@ -7,6 +7,7 @@
 
 <h3>@ViewBag.Title</h3>
 <form id="Form">
+    @Html.AntiForgeryToken()
     <div class="toolbar">
         <nav class="navbar toolbar justify-content-start">
             <a class="navbar-brand" href="@Url.Action("Edit")">

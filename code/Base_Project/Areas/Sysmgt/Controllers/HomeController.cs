@@ -8,7 +8,6 @@ namespace Base_Project.Areas.Sysmgt.Controllers
 {
     public class HomeController : BaseController
     {
-        // GET: Sysmgt/Home
         public ActionResult Index()
         {
             return View();

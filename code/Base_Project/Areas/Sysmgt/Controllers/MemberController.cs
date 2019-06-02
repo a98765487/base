@@ -24,6 +24,7 @@ namespace Base_Project.Areas.Sysmgt.Controllers
 
             return View(model);
         }
+        [ValidateAntiForgeryToken]
         public ActionResult GetList(IndexViewModel model)
         {
             GetPageList(model);
@@ -129,6 +130,15 @@ namespace Base_Project.Areas.Sysmgt.Controllers
                 if (String.IsNullOrEmpty(model.PWD))
                 {
                     ErrorMsgs.Add(new ErrorMsg() { ErrorID = "PWD" , ErrorText = "請輸入密碼" });
+                }
+
+                using (DBEntities db = new DBEntities())
+                {
+                    var existmember = db.SYS_USER.AsNoTracking().Where(x => x.EMAIL == model.EMAIL).SingleOrDefault();
+                    if (existmember != null)
+                    {
+                        ErrorMsgs.Add(new ErrorMsg() { ErrorID = "ACCT", ErrorText = "使用者帳號已經使用" });
+                    }
                 }
 
                 model.SID = SystemIdHelper.getNewSId();

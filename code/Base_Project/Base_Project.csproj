@@ -144,6 +144,8 @@
     <Compile Include="Areas\Sysmgt\Controllers\ErrorController.cs" />
     <Compile Include="Areas\Sysmgt\Controllers\HomeController.cs" />
     <Compile Include="Areas\Sysmgt\Controllers\SysUserController.cs" />
+    <Compile Include="Areas\Sysmgt\Models\SysUserViewModel.cs" />
+    <Compile Include="Areas\Sysmgt\Models\MemberViewModel.cs" />
     <Compile Include="Areas\Sysmgt\Models\PageListViewModel.cs" />
     <Compile Include="Areas\Sysmgt\Models\BaseViewModel.cs" />
     <Compile Include="Areas\Sysmgt\SysmgtAreaRegistration.cs" />
@@ -185,7 +187,6 @@
     <Compile Include="Helpers\ErrorHelper.cs" />
     <Compile Include="Helpers\MemberHelper.cs" />
     <Compile Include="Helpers\SystemIdHelper.cs" />
-    <Compile Include="Areas\Sysmgt\Models\Member\MemberViewModel.cs" />
     <Compile Include="Interface\IPageList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -228,11 +229,6 @@
     <Content Include="Areas\Sysmgt\Views\Home\Index.cshtml" />
     <Content Include="Areas\Sysmgt\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Sysmgt\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Sysmgt\Views\SysUser\Create.cshtml" />
-    <Content Include="Areas\Sysmgt\Views\SysUser\Delete.cshtml" />
-    <Content Include="Areas\Sysmgt\Views\SysUser\Details.cshtml" />
-    <Content Include="Areas\Sysmgt\Views\SysUser\Edit.cshtml" />
-    <Content Include="Areas\Sysmgt\Views\SysUser\Index.cshtml" />
     <EntityDeploy Include="Entity\DB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DB.Designer.cs</LastGenOutput>
@@ -246,6 +242,9 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Areas\Sysmgt\Views\SysUser\Index.cshtml" />
+    <Content Include="Areas\Sysmgt\Views\SysUser\_PageList.cshtml" />
+    <Content Include="Areas\Sysmgt\Views\SysUser\Edit.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

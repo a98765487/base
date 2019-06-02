@@ -1,87 +1,40 @@
-﻿@model IEnumerable<Base_Project.Entity.SYS_USER>
+﻿@model Base_Project.Models.SysUser.IndexViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "使用者管理";
+    ViewBag.ID = "SysUser";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CSID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MSID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CDT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MDT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ENABLED)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EMAIL)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ACCT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PWD)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HASHKEY)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NAME)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CSID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MSID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CDT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MDT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ENABLED)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EMAIL)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ACCT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PWD)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HASHKEY)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NAME)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SID })
-        </td>
-    </tr>
+<h3>@ViewBag.Title</h3>
+<form id="Form">
+    @Html.AntiForgeryToken()
+    <div class="toolbar">
+        <nav class="navbar toolbar justify-content-start">
+            <a class="navbar-brand" href="@Url.Action("Edit")">
+                <i class="far fa-plus-square"></i>
+                新增
+            </a>
+            <a class="navbar-brand" href="#" id="Delete">
+                <i class="far fa-trash-alt"></i>
+                刪除
+            </a>
+        </nav>
+        <div class="form-group search-area">
+            @Html.TextBoxFor(x => x.Keyword, new { @class = "form-control", placeholder = "請輸入關鍵字" })
+        </div>
+        <div class="clb"></div>
+        <div class="error-utility text-danger">
+        </div>
+    </div>
+    <div class="row" id="PageListContainer">
+        @{Html.RenderPartial("_PageList", Model); }
+    </div>
+</form>
+@section script{
+    <script>
+        $(function(){
+            focusMenu("@ViewBag.ID")
+        })
+    </script>
+    @{Html.RenderPartial("~/Areas/Sysmgt/Views/Shared/Common/_Js.cshtml", Model); }
 }
-
-</table>
