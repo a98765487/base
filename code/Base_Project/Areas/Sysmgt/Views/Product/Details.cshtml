@@ -1,0 +1,99 @@
+﻿@model Base_Project.Models.PRODUCT
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PRODUCT</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CSID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CSID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MSID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MSID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ENABLED)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ENABLED)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PRICE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PRICE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IMG_SRC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IMG_SRC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DESC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DESC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CONTENT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CONTENT)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="MEMBER">
+          <Key>
+            <PropertyRef Name="SID" />
+          </Key>
+          <Property Name="SID" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="CSID" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="MSID" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="CDT" Type="datetime" Nullable="false" />
+          <Property Name="MDT" Type="datetime" Nullable="false" />
+          <Property Name="ENABLED" Type="bit" Nullable="false" />
+          <Property Name="EMAIL" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PWD" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="HASHKEY" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="FBID" Type="varchar" MaxLength="100" />
+          <Property Name="GOOGLEID" Type="varchar" MaxLength="100" />
+          <Property Name="VERIFY" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ORDER">
+          <Key>
+            <PropertyRef Name="SID" />
+          </Key>
+          <Property Name="SID" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="MEMBER_SID" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="PRODUCT_SID" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="CSID" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="MSID" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="CDT" Type="datetime" Nullable="false" />
+          <Property Name="MDT" Type="datetime" Nullable="false" />
+          <Property Name="COUNT" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PRODUCT">
+          <Key>
+            <PropertyRef Name="SID" />
+          </Key>
+          <Property Name="SID" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="CSID" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="MSID" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="CDT" Type="datetime" Nullable="false" />
+          <Property Name="MDT" Type="datetime" Nullable="false" />
+          <Property Name="ENABLED" Type="bit" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CAT_SID" Type="char" MaxLength="20" />
+          <Property Name="PRICE" Type="int" />
+          <Property Name="IMG_SRC" Type="varchar" MaxLength="500" />
+          <Property Name="DESC" Type="nvarchar" MaxLength="500" />
+          <Property Name="CONTENT" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="SYS_USER">
+          <Key>
+            <PropertyRef Name="SID" />
+          </Key>
+          <Property Name="SID" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="CSID" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="MSID" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="CDT" Type="datetime" Nullable="false" />
+          <Property Name="MDT" Type="datetime" Nullable="false" />
+          <Property Name="ENABLED" Type="bit" Nullable="false" />
+          <Property Name="EMAIL" Type="varchar" MaxLength="100" />
+          <Property Name="ACCT" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PWD" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="HASHKEY" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_ORDER_MEMBER">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="SID" />
+            </Principal>
+            <Dependent Role="ORDER">
+              <PropertyRef Name="MEMBER_SID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDER_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="SID" />
+            </Principal>
+            <Dependent Role="ORDER">
+              <PropertyRef Name="PRODUCT_SID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBModelStoreContainer">
+          <EntitySet Name="MEMBER" EntityType="Self.MEMBER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ORDER" EntityType="Self.ORDER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCT" EntityType="Self.PRODUCT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_USER" EntityType="Self.SYS_USER" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ORDER_MEMBER" Association="Self.FK_ORDER_MEMBER">
+            <End Role="MEMBER" EntitySet="MEMBER" />
+            <End Role="ORDER" EntitySet="ORDER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDER_PRODUCT" Association="Self.FK_ORDER_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+            <End Role="ORDER" EntitySet="ORDER" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="MEMBER">
+          <Key>
+            <PropertyRef Name="SID" />
+          </Key>
+          <Property Name="SID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CSID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="MSID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CDT" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MDT" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ENABLED" Type="Boolean" Nullable="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PWD" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HASHKEY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FBID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="GOOGLEID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VERIFY" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ORDERs" Relationship="Self.FK_ORDER_MEMBER" FromRole="MEMBER" ToRole="ORDER" />
+        </EntityType>
+        <EntityType Name="ORDER">
+          <Key>
+            <PropertyRef Name="SID" />
+          </Key>
+          <Property Name="SID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="MEMBER_SID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="PRODUCT_SID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CSID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="MSID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CDT" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MDT" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="COUNT" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MEMBER" Relationship="Self.FK_ORDER_MEMBER" FromRole="ORDER" ToRole="MEMBER" />
+          <NavigationProperty Name="PRODUCT" Relationship="Self.FK_ORDER_PRODUCT" FromRole="ORDER" ToRole="PRODUCT" />
+        </EntityType>
+        <EntityType Name="PRODUCT">
+          <Key>
+            <PropertyRef Name="SID" />
+          </Key>
+          <Property Name="SID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CSID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="MSID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CDT" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MDT" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ENABLED" Type="Boolean" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CAT_SID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="PRICE" Type="Int32" />
+          <Property Name="IMG_SRC" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DESC" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CONTENT" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ORDERs" Relationship="Self.FK_ORDER_PRODUCT" FromRole="PRODUCT" ToRole="ORDER" />
+        </EntityType>
+        <EntityType Name="SYS_USER">
+          <Key>
+            <PropertyRef Name="SID" />
+          </Key>
+          <Property Name="SID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CSID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="MSID" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CDT" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MDT" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ENABLED" Type="Boolean" Nullable="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ACCT" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PWD" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HASHKEY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_ORDER_MEMBER">
+          <End Role="MEMBER" Type="Self.MEMBER" Multiplicity="1" />
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBER">
+              <PropertyRef Name="SID" />
+            </Principal>
+            <Dependent Role="ORDER">
+              <PropertyRef Name="MEMBER_SID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDER_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1" />
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="SID" />
+            </Principal>
+            <Dependent Role="ORDER">
+              <PropertyRef Name="PRODUCT_SID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MEMBERs" EntityType="Self.MEMBER" />
+          <EntitySet Name="ORDERs" EntityType="Self.ORDER" />
+          <EntitySet Name="PRODUCTs" EntityType="Self.PRODUCT" />
+          <EntitySet Name="SYS_USER" EntityType="Self.SYS_USER" />
+          <AssociationSet Name="FK_ORDER_MEMBER" Association="Self.FK_ORDER_MEMBER">
+            <End Role="MEMBER" EntitySet="MEMBERs" />
+            <End Role="ORDER" EntitySet="ORDERs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDER_PRODUCT" Association="Self.FK_ORDER_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+            <End Role="ORDER" EntitySet="ORDERs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="DBEntities">
+          <EntitySetMapping Name="MEMBERs">
+            <EntityTypeMapping TypeName="DBModel.MEMBER">
+              <MappingFragment StoreEntitySet="MEMBER">
+                <ScalarProperty Name="SID" ColumnName="SID" />
+                <ScalarProperty Name="CSID" ColumnName="CSID" />
+                <ScalarProperty Name="MSID" ColumnName="MSID" />
+                <ScalarProperty Name="CDT" ColumnName="CDT" />
+                <ScalarProperty Name="MDT" ColumnName="MDT" />
+                <ScalarProperty Name="ENABLED" ColumnName="ENABLED" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="PWD" ColumnName="PWD" />
+                <ScalarProperty Name="HASHKEY" ColumnName="HASHKEY" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="FBID" ColumnName="FBID" />
+                <ScalarProperty Name="GOOGLEID" ColumnName="GOOGLEID" />
+                <ScalarProperty Name="VERIFY" ColumnName="VERIFY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ORDERs">
+            <EntityTypeMapping TypeName="DBModel.ORDER">
+              <MappingFragment StoreEntitySet="ORDER">
+                <ScalarProperty Name="SID" ColumnName="SID" />
+                <ScalarProperty Name="MEMBER_SID" ColumnName="MEMBER_SID" />
+                <ScalarProperty Name="PRODUCT_SID" ColumnName="PRODUCT_SID" />
+                <ScalarProperty Name="CSID" ColumnName="CSID" />
+                <ScalarProperty Name="MSID" ColumnName="MSID" />
+                <ScalarProperty Name="CDT" ColumnName="CDT" />
+                <ScalarProperty Name="MDT" ColumnName="MDT" />
+                <ScalarProperty Name="COUNT" ColumnName="COUNT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTs">
+            <EntityTypeMapping TypeName="DBModel.PRODUCT">
+              <MappingFragment StoreEntitySet="PRODUCT">
+                <ScalarProperty Name="SID" ColumnName="SID" />
+                <ScalarProperty Name="CSID" ColumnName="CSID" />
+                <ScalarProperty Name="MSID" ColumnName="MSID" />
+                <ScalarProperty Name="CDT" ColumnName="CDT" />
+                <ScalarProperty Name="MDT" ColumnName="MDT" />
+                <ScalarProperty Name="ENABLED" ColumnName="ENABLED" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="CAT_SID" ColumnName="CAT_SID" />
+                <ScalarProperty Name="PRICE" ColumnName="PRICE" />
+                <ScalarProperty Name="IMG_SRC" ColumnName="IMG_SRC" />
+                <ScalarProperty Name="DESC" ColumnName="DESC" />
+                <ScalarProperty Name="CONTENT" ColumnName="CONTENT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_USER">
+            <EntityTypeMapping TypeName="DBModel.SYS_USER">
+              <MappingFragment StoreEntitySet="SYS_USER">
+                <ScalarProperty Name="SID" ColumnName="SID" />
+                <ScalarProperty Name="CSID" ColumnName="CSID" />
+                <ScalarProperty Name="MSID" ColumnName="MSID" />
+                <ScalarProperty Name="CDT" ColumnName="CDT" />
+                <ScalarProperty Name="MDT" ColumnName="MDT" />
+                <ScalarProperty Name="ENABLED" ColumnName="ENABLED" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="ACCT" ColumnName="ACCT" />
+                <ScalarProperty Name="PWD" ColumnName="PWD" />
+                <ScalarProperty Name="HASHKEY" ColumnName="HASHKEY" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

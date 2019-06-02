@@ -1,0 +1,33 @@
+﻿@model Base_Project.Models.Member.IndexViewModel
+
+@{
+    ViewBag.Title = "會員管理";
+}
+
+<h3>@ViewBag.Title</h3>
+<form id="Form">
+    <div class="toolbar">
+        <nav class="navbar toolbar justify-content-start">
+            <a class="navbar-brand" href="@Url.Action("Edit")">
+                <i class="far fa-plus-square"></i>
+                新增
+            </a>
+            <a class="navbar-brand" href="#" id="Delete">
+                <i class="far fa-trash-alt"></i>
+                刪除
+            </a>
+        </nav>
+        <div class="form-group search-area">
+            @Html.TextBoxFor(x => x.Keyword, new { @class = "form-control", placeholder = "請輸入關鍵字" })
+        </div>
+        <div class="clb"></div>
+        <div class="error-utility text-danger">
+        </div>
+    </div>
+    <div class="row" id="PageListContainer">
+        @{Html.RenderPartial("_PageList", Model); }
+    </div>
+</form>
+@section script{
+    @{Html.RenderPartial("_PageList", Model); }
+}

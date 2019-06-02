@@ -1,0 +1,38 @@
+﻿*{
+    font-family: '微軟正黑體'
+}
+html,body{
+    height:100%;
+}
+nav.aside {
+    position: fixed !important;
+    width: 300px;
+    height: 100%;
+}
+.toolbar nav{
+    display: inline-block !important;
+}
+.toolbar .form-group {
+    display: inline-block !important;
+    float: right;
+}
+.clb{
+    clear:both;
+}
+main {
+    width: calc(100% - 300px) !important;
+    margin-left: 300px !important;
+    padding: 100px 150px 150px 150px !important;
+}
+main table th, main table tr > td {
+    vertical-align: middle !important;
+}
+main table th:first-child, main table tr > td:first-child {
+    text-align: center;
+}
+main table th:nth-child(2), main table tr > td:nth-child(2) {
+    text-align: center;
+}
+nav .navbar-collapse {
+    align-items: flex-start !important;
+}

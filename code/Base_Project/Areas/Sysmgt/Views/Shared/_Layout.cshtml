@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 後台管理</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="~/Content/Css/all.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark align-items-start flex-sm-column flex-row aside">
+        <a class="navbar-brand" href="#"><i class="fas fa-cogs"></i> 後台管理</a>
+        <a href="#" class="navbar-toggler" data-toggle="collapse" data-target=".sidebar">
+            <i class="fas fa-camera"></i>
+        </a>
+        <div class="collapse navbar-collapse sidebar">
+            <ul class="flex-column navbar-nav w-100 justify-content-between">
+                <li class="nav-item">
+                    <a class="nav-link pl-0" href="#"><span>管理員</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link pl-0" href="#"><span class="">商品</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link pl-0" href="#"><span class="">會員</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link pl-0 dropdown-toggle text-nowrap" href="#m1" data-parent="#navbar1" data-toggle="collapse" data-target="#m1" aria-expanded="false">
+                        <span>訂單</span>
+                    </a>
+                    <div class="collapse" id="m1">
+                        <ul class="flex-column nav">
+                            <li>
+                                <a class="nav-link px-0 text-truncate" href="#">Sub</a>
+                            </li>
+                            <li>
+                                <a class="nav-link px-0 text-truncate" href="#">Sub longer</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <main class="container-fuild">
+        @RenderBody()
+    </main>
+    <hr />
+    <footer>
+        <p>&copy; @DateTime.Now.Year - 基底專案</p>
+    </footer>
+
+    @*bootstrap4*@
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/c4f87d8342.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+    <script src="~/Content/Js/jquery.valida.custom.js"></script>
+        @RenderSection("script",false)
+</body>
+</html>

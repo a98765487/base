@@ -1,0 +1,75 @@
+﻿@model Base_Project.Models.ORDER
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ORDER</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CSID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CSID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MSID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MSID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.COUNT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.COUNT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MEMBER.CSID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MEMBER.CSID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PRODUCT.CSID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PRODUCT.CSID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
