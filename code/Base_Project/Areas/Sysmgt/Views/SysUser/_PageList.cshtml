@@ -1,0 +1,49 @@
+﻿@model Base_Project.Models.SysUser.IndexViewModel
+@{
+    Layout = null;
+}
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th width="80px">
+                <input type="checkbox" id="SelectAll" />
+            </th>
+            <th width="80px">
+                項次
+            </th>
+            <th>
+                帳號
+            </th>
+            <th>
+                姓名
+            </th>
+            <th width="200px">
+                更新日期
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" name="selectedItems" value="@item.SId" />
+                </td>
+                <td>
+                    @item.Num
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", new { @id = item.SId })">@item.Acct</a>
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Mdt
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{Html.RenderPartial("~/Areas/Sysmgt/Views/Shared/Common/_Pagination.cshtml", Model); }
