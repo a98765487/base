@@ -144,6 +144,7 @@
     <Compile Include="Areas\Sysmgt\Controllers\ErrorController.cs" />
     <Compile Include="Areas\Sysmgt\Controllers\HomeController.cs" />
     <Compile Include="Areas\Sysmgt\Controllers\SysUserController.cs" />
+    <Compile Include="Areas\Sysmgt\Models\ProductViewModel.cs" />
     <Compile Include="Areas\Sysmgt\Models\SysUserViewModel.cs" />
     <Compile Include="Areas\Sysmgt\Models\MemberViewModel.cs" />
     <Compile Include="Areas\Sysmgt\Models\PageListViewModel.cs" />
@@ -245,17 +246,15 @@
     <Content Include="Areas\Sysmgt\Views\SysUser\Index.cshtml" />
     <Content Include="Areas\Sysmgt\Views\SysUser\_PageList.cshtml" />
     <Content Include="Areas\Sysmgt\Views\SysUser\Edit.cshtml" />
+    <Content Include="Areas\Sysmgt\Views\Product\Index.cshtml" />
+    <Content Include="Areas\Sysmgt\Views\Product\_PageList.cshtml" />
+    <Content Include="Areas\Sysmgt\Views\Product\Edit.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
     <Content Include="Areas\Sysmgt\Views\Member\Edit.cshtml" />
     <Content Include="Areas\Sysmgt\Views\Member\Index.cshtml" />
-    <Content Include="Areas\Sysmgt\Views\Product\Create.cshtml" />
-    <Content Include="Areas\Sysmgt\Views\Product\Delete.cshtml" />
-    <Content Include="Areas\Sysmgt\Views\Product\Details.cshtml" />
-    <Content Include="Areas\Sysmgt\Views\Product\Edit.cshtml" />
-    <Content Include="Areas\Sysmgt\Views\Product\Index.cshtml" />
     <Content Include="Areas\Sysmgt\Views\Order\Create.cshtml" />
     <Content Include="Areas\Sysmgt\Views\Order\Delete.cshtml" />
     <Content Include="Areas\Sysmgt\Views\Order\Details.cshtml" />

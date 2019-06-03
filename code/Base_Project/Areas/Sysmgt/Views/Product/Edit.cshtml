@@ -1,117 +1,122 @@
-﻿@model Base_Project.Models.PRODUCT
+﻿@model Base_Project.Models.Product.EditViewModel
 
 @{
-    ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "商品管理";
+    ViewBag.ID = "Product";
 }
 
-<h2>Edit</h2>
-
-
-@using (Html.BeginForm())
-{
+<form id="Form">
     @Html.AntiForgeryToken()
-    
+    @Html.HiddenFor(x => x.SID)
+
     <div class="form-horizontal">
-        <h4>PRODUCT</h4>
+        <h4>@ViewBag.Title</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.SID)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CSID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CSID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CSID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MSID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MSID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MSID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CDT, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CDT, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CDT, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MDT, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MDT, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MDT, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ENABLED, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.ENABLED)
-                    @Html.ValidationMessageFor(model => model.ENABLED, "", new { @class = "text-danger" })
+        <div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NAME, new { htmlAttributes = new { @class = "form-control required" } })
                 </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.NAME, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NAME, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NAME, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.DESC, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DESC, new { htmlAttributes = new { @class = "form-control required" } })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PRICE, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PRICE, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PRICE, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.CONTENT, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.CONTENT, new { htmlAttributes = new { @class = "form-control required" } })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IMG_SRC, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IMG_SRC, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IMG_SRC, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NAME, new { htmlAttributes = new { @class = "form-control required" } })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.DESC, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DESC, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DESC, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="form-check form-check-inline">
+                        @Html.CheckBoxFor(model => model.ENABLED, new { @class = "form-check-input" })
+                        @Html.LabelFor(model => model.ENABLED, htmlAttributes: new { @class = "form-check-label" })
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.CONTENT, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CONTENT, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CONTENT, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            @if (!String.IsNullOrEmpty(Model.SID))
+            {
+                <div class="form-group">
+                    <div class="col-md-10">
+                        創建日期：@Model.CDT.ToString("yyyy年MM月dd日 HH:mm:ss")
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        修改日期：@Model.MDT.ToString("yyyy年MM月dd日 HH:mm:ss")
+                    </div>
+                </div>
+            }
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="submit" value="送出" class="btn btn-default" id="Send" />
+                </div>
             </div>
+
+            <div class="error-utility text-danger"></div>
         </div>
     </div>
-}
+</form>
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("返回列表", "Index")
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+@section script{
+    @{Html.RenderPartial("~/Areas/Sysmgt/Views/Shared/Common/_Js.cshtml", Model); }
+    <script>
+        $(function(){
+            focusMenu("@ViewBag.ID")
+        })
+    $("#Send").click(function (e) {
+        e.preventDefault()
+
+        if (!$("#Form").valid()) {
+            return
+        }
+
+        showLoading()
+
+        var form = $("#Form").serialize()
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Edit")",
+            data: form,
+            success: function (data) {
+                hideLoading()
+                if (data.Success) {
+                    location.href = "@Url.Action("Index")"
+                }
+                showError(data.ErrorMsgs)
+
+            },
+            fail: function (ex) {
+                hideLoading()
+                showError(ex.reponseText)
+            }
+        })
+    })
+    </script>
 }
+
