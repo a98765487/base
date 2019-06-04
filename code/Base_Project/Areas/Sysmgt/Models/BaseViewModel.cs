@@ -12,6 +12,10 @@ namespace Base_Project.Models
     #region BaseViewModel
     public class BaseViewModel
     {
+        /// <summary>
+        /// 系統使用者代號
+        /// </summary>
+        public string ActorSId { set; get; }
     }
     #endregion
 }

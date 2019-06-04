@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Base_Project.Entity;
-using EntityState = System.Data.Entity.EntityState;
 using Base_Project.Models;
 
 namespace Base_Project.Areas.Sysmgt.Controllers

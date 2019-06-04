@@ -16,6 +16,9 @@
                 alert("請選擇至少一筆資料")
                 return
             }
+            if (!confirm("您確定要刪除這些資料？")) {
+                return
+            }
 
             var selectItems = $('input:checkbox[name=selectedItems]:checked').map(function () { return $(this).val(); }).get();
 
@@ -32,9 +35,9 @@
                     }
                     showError(data.ErrorMsgs)
                 },
-                fail: function (ex) {
+                error: function (ex) {
                     hideLoading()
-                    showError(ex)
+                    showError(ex.statusText)
                 }
             })
         })
@@ -61,14 +64,16 @@
         })
     }
     function focusMenu(id) {
-        if ($("#" + id).closest(".dropdown-toggle")) {
-            $("#" + id).addClass("active")
-            let parent = id.split("_")[0]
-            $("#" + parent).addClass("active")
-            $("#" + id).closest(".collapse").addClass("show")
-        }
-        else {
-            $("#" + id).addClass("active")
+        if (id) {
+            if ($("#" + id).closest(".dropdown-toggle")) {
+                $("#" + id).addClass("active")
+                let parent = id.split("_")[0]
+                $("#" + parent).addClass("active")
+                $("#" + id).closest(".collapse").addClass("show")
+            }
+            else {
+                $("#" + id).addClass("active")
+            }
         }
     }
 </script>
@@ -83,8 +88,9 @@
             "searchreplace visualblocks code fullscreen",
             "insertdatetime media table contextmenu paste textcolor autosave lists"
         ],
-        toolbar: "insertfile undo redo forecolor | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages",
+        toolbar: "insertfile undo redo forecolor | styleselect | bold italic | fontsizeselect alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages",
         paste_data_images: true,
+        relative_urls: false,
         images_upload_url: '/Base/UploadImage/',
         images_upload_base_path: '',
     });

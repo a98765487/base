@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -18,6 +19,11 @@ namespace Base_Project.Areas.Sysmgt.Controllers
         public ActionResult Index()
         {
             var model = new IndexViewModel();
+
+            if (!SysHelper.init(model))
+            {
+                return RedirectToAction("Login", "Home");
+            }
 
             GetPageList(model);
 
@@ -74,6 +80,12 @@ namespace Base_Project.Areas.Sysmgt.Controllers
         public ActionResult Edit(string id)
         {
             var model = new EditViewModel();
+
+            if (!SysHelper.init(model))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
             if (String.IsNullOrEmpty(id))
             {
                 return View(model);
@@ -99,7 +111,7 @@ namespace Base_Project.Areas.Sysmgt.Controllers
                         model.NAME = product.NAME;
                         model.SID = product.SID;
                         model.CAT_SID = product.CAT_SID;
-                        model.CONTENT = product.CONTENT;
+                        model.CONTENT = Server.HtmlDecode(product.CONTENT);
                         model.DESC = product.DESC;
                         model.IMG_SRC = product.IMG_SRC;
                         model.PRICE = product.PRICE;
@@ -177,7 +189,7 @@ namespace Base_Project.Areas.Sysmgt.Controllers
                         ENABLED = model.ENABLED,
                         NAME = model.NAME,
                         CAT_SID = model.CAT_SID,
-                        CONTENT = model.CONTENT,
+                        CONTENT = Encoder.HtmlEncode(model.CONTENT),
                         DESC = model.DESC,
                         IMG_SRC = model.IMG_SRC,
                         PRICE = model.PRICE,
@@ -198,7 +210,13 @@ namespace Base_Project.Areas.Sysmgt.Controllers
         #region Delete
         public JsonResult Delete(FormCollection form)
         {
+            var model = new IndexViewModel();
             List<ErrorMsg> ErrorMsgs = new List<ErrorMsg>();
+            if (!SysHelper.init(model))
+            {
+                ErrorMsgs.Add(new ErrorMsg() { ErrorID = "Utility", ErrorText = "使用者尚未登入" });
+                return Json(new { Success = false, ErrorMsgs });
+            }
 
             if (String.IsNullOrEmpty(form["selectItems"]))
             {

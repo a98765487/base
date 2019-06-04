@@ -30,22 +30,25 @@ $(function () {
             $(element).addClass("is-invalid");
         },
         unhighlight: function (element, errorClass, validClass) {
-            $(element).removeClass("is-invalid")
+            $(element).removeClass("is-invalid");
         },
         errorPlacement: function (error, element) {
-            $(error).addClass("text-danger")
-            error.insertAfter(element)
+            $(error).addClass("text-danger");
+            error.insertAfter(element);
         }
-    })
+    });
     $(".required").rules("add", {
         required: true
     }),
-        $(".email").rules("add", {
-            email: true
-        })
+    $(".email").rules("add", {
+        email: true
+    }),
     $(".password").rules("add", {
-        checkPwd: true,
-    })
+        checkPwd: true
+    }),
+    $(".number").rules("add", {
+        digits: true
+    }),
     $.validator.addMethod("checkPwd", function (value, element, params) {
         var checkPwd = /^\w{6,16}$/g;
         return this.optional(element) || (checkPwd.test(value));

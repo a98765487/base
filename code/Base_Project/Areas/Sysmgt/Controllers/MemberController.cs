@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Base_Project.Entity;
-using EntityState = System.Data.Entity.EntityState;
 using Base_Project.Models.Member;
 using Base_Project.Helpers;
 
@@ -20,6 +19,11 @@ namespace Base_Project.Areas.Sysmgt.Controllers
         {
             var model = new IndexViewModel();
 
+            if (!SysHelper.init(model))
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
             GetPageList(model);
 
             return View(model);
@@ -27,6 +31,10 @@ namespace Base_Project.Areas.Sysmgt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult GetList(IndexViewModel model)
         {
+            if (!SysHelper.init(model))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             GetPageList(model);
             return View("_PageList",model);
         }
@@ -78,6 +86,10 @@ namespace Base_Project.Areas.Sysmgt.Controllers
         public ActionResult Edit(string id)
         {
             var model = new EditViewModel();
+            if (!SysHelper.init(model))
+            {
+                return RedirectToAction("Login", "Home");
+            }
             if (String.IsNullOrEmpty(id))
             {
                 return View(model);
@@ -123,6 +135,13 @@ namespace Base_Project.Areas.Sysmgt.Controllers
         public JsonResult Edit(EditViewModel model)
         {
             List<ErrorMsg> ErrorMsgs = new List<ErrorMsg>();
+
+            if (!SysHelper.init(model))
+            {
+                ErrorMsgs.Add(new ErrorMsg() { ErrorID = "Utility", ErrorText = "使用者尚未登入" });
+                return Json(new { Success = false, ErrorMsgs });
+            }
+
             //新增
             if (String.IsNullOrEmpty(model.SID))
             {
@@ -142,6 +161,7 @@ namespace Base_Project.Areas.Sysmgt.Controllers
                 }
 
                 model.SID = SystemIdHelper.getNewSId();
+                model.HASHKEY = MemberHelper.getHashKey();
 
                 MEMBER member = new MEMBER()
                 {
@@ -155,7 +175,7 @@ namespace Base_Project.Areas.Sysmgt.Controllers
                     NAME = model.NAME,
                     FBID = model.FBID,
                     GOOGLEID = model.GOOGLEID,
-                    HASHKEY = MemberHelper.getHashKey(),
+                    HASHKEY = model.HASHKEY,
                     PWD = MemberHelper.getHashPwd(model.PWD + model.HASHKEY),
                     VERIFY = model.VERIFY,
                 };
@@ -201,9 +221,10 @@ namespace Base_Project.Areas.Sysmgt.Controllers
                         GOOGLEID = oldInfo.GOOGLEID,
                         VERIFY = model.VERIFY,
                     };
+                    model.HASHKEY = MemberHelper.getHashKey();
                     if (!String.IsNullOrEmpty(model.PWD))
                     {
-                        newInfo.HASHKEY = MemberHelper.getHashKey();
+                        newInfo.HASHKEY = model.HASHKEY;
                         newInfo.PWD = MemberHelper.getHashPwd(model.PWD + model.HASHKEY);
                     }
 
@@ -222,7 +243,15 @@ namespace Base_Project.Areas.Sysmgt.Controllers
         #region Delete
         public JsonResult Delete(FormCollection form)
         {
+            var model = new IndexViewModel();
+
             List<ErrorMsg> ErrorMsgs = new List<ErrorMsg>();
+
+            if (!SysHelper.init(model))
+            {
+                ErrorMsgs.Add(new ErrorMsg() { ErrorID = "Utility", ErrorText = "使用者尚未登入" });
+                return Json(new { Success = false, ErrorMsgs });
+            }
 
             if (String.IsNullOrEmpty(form["selectItems"]))
             {

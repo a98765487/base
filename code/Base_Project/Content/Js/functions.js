@@ -6,7 +6,7 @@ function hideLoading() {
 }
 function showError(ex) {
     $(".error-utility").empty();
-    if (typeof ex.length == 'number') {
+    if (typeof ex == 'object') {
         ex.forEach(function (error) {
             $(".error-utility").append("<p>" + error.ErrorText + "<p>");
         });

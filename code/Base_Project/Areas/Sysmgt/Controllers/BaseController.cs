@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Base_Project.Entity;
 using NLog;
 using System.IO;
+using Base_Project.Helpers;
 
 namespace Base_Project.Areas.Sysmgt.Controllers
 {
@@ -25,6 +26,12 @@ namespace Base_Project.Areas.Sysmgt.Controllers
 
             file.SaveAs(Server.MapPath(filePath));
             return Json(new { location = filePath });
+        }
+        public ActionResult GenerateValidCode()
+        {
+            var helper = new ValidateCodeHelper();
+            var data = helper.CreateValidateCode();
+            return File(data, "image/gif");
         }
     }
 }

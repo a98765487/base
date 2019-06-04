@@ -61,7 +61,7 @@ namespace Base_Project.Models.Product
     public string IMG_SRC { get; set; }
     [Display(Name = "簡述")]
     public string DESC { get; set; }
-    [Display(Name = "內文")]
+    [Display(Name = "內文") , AllowHtml]
     public string CONTENT { get; set; }
         #endregion
     }

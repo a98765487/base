@@ -114,9 +114,9 @@
                 showError(data.ErrorMsgs)
 
             },
-            fail: function (ex) {
+            error: function (ex) {
                 hideLoading()
-                showError(ex.reponseText)
+                showError(ex.statusText)
             }
         })
     })

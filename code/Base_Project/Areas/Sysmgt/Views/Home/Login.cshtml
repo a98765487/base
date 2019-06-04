@@ -1,0 +1,88 @@
+﻿@model Base_Project.Models.Home.LoginViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "後台管理系統";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>後台管理系統登入頁面</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="~/Content/Css/login.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="login-area d-flex justify-content-center align-items-center">
+        <div class="login-box">
+            <div class="h1 mb-4 text-center">@ViewBag.Title</div>
+            <form id="Form">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <label for="Acct">帳號</label>
+                    @Html.TextBoxFor(x => x.Acct, new { @class = "form-control required" })
+                </div>
+                <div class="form-group">
+                    <label for="Pwd">密碼</label>
+                    @Html.TextBoxFor(x => x.Pwd, new { @class = "form-control required", @type = "password" })
+                </div>
+                <div class="form-group">
+                    <label for="ValidateCode">驗證碼</label>
+                    <div>
+                        <div class="d-inline-block valid-code">
+                            @Html.TextBoxFor(x => x.ValidateCode, new { @class = "form-control d-inline-block" })
+                            <img src="@Url.Action("GenerateValidCode","Base")" alt="圖形驗證碼" />
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="Send">登入</button>
+            </form>
+            <div class="error-utility text-danger"></div>
+        </div>
+    </div>
+    <div class="loading-area">
+        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js"></script>
+    <script src="~/Content/Js/jquery.valida.custom.js"></script>
+    <script src="~/Content/Js/functions.js"></script>
+    <script>
+
+    $("#Send").click(function (e) {
+        e.preventDefault()
+
+        if (!$("#Form").valid()) {
+            return
+        }
+
+        showLoading()
+
+        var form = $("#Form").serialize()
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Login")",
+            data: form,
+            success: function (data) {
+                hideLoading()
+                if (data.Success) {
+                    location.href = "@Url.Action("Index")"
+                }
+                showError(data.ErrorMsgs)
+
+            },
+            error: function (ex) {
+                hideLoading()
+                showError(ex.statusText)
+            }
+        })
+    })
+    </script>
+</body>
+</html>
