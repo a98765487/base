@@ -1,9 +1,12 @@
 ﻿@model Base_Project.Models.BaseViewModel
-@{ 
+@{
     Layout = null;
 }
+<script src="~/Content/Js/functions.js">
+</script>
 <script>
     $(function () {
+        focusMenu("@ViewBag.ID")
         $("#SelectAll").click(function () {
             $("input[name=selectedItems]").prop("checked", $("#SelectAll").is(":checked"))
         })
@@ -69,5 +72,20 @@
         }
     }
 </script>
-<script src="~/Content/Js/functions.js">
+<script>
+    //編輯器註冊
+    tinyMCE.init({
+        selector: "textarea",
+        auto_focus: "CONTENT",
+        language: "zh_TW",
+        plugins: [
+            "advlist autolink lists link image charmap print preview anchor",
+            "searchreplace visualblocks code fullscreen",
+            "insertdatetime media table contextmenu paste textcolor autosave lists"
+        ],
+        toolbar: "insertfile undo redo forecolor | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages",
+        paste_data_images: true,
+        images_upload_url: '/Base/UploadImage/',
+        images_upload_base_path: '',
+    });
 </script>

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Base_Project.Entity;
-using EntityState = System.Data.Entity.EntityState;
 using Base_Project.Models.Product;
 using Base_Project.Helpers;
+using Microsoft.Security.Application;
 
 namespace Base_Project.Areas.Sysmgt.Controllers
 {
@@ -137,7 +136,7 @@ namespace Base_Project.Areas.Sysmgt.Controllers
                     ENABLED = model.ENABLED,
                     NAME = model.NAME,
                     CAT_SID = model.CAT_SID,
-                    CONTENT = model.CONTENT,
+                    CONTENT = Encoder.HtmlEncode(model.CONTENT),
                     DESC = model.DESC,
                     IMG_SRC = model.IMG_SRC,
                     PRICE = model.PRICE,

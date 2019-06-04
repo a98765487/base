@@ -83,40 +83,38 @@
 </div>
 
 @section script{
-    @{Html.RenderPartial("~/Areas/Sysmgt/Views/Shared/Common/_Js.cshtml", Model); }
     <script>
-        $(function(){
-            focusMenu("@ViewBag.ID")
-        })
-    $("#Send").click(function (e) {
-        e.preventDefault()
+        $(function () {
 
-        if (!$("#Form").valid()) {
-            return
-        }
+            $("#Send").click(function (e) {
+                e.preventDefault()
 
-        showLoading()
-
-        var form = $("#Form").serialize()
-
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("Edit")",
-            data: form,
-            success: function (data) {
-                hideLoading()
-                if (data.Success) {
-                    location.href = "@Url.Action("Index")"
+                if (!$("#Form").valid()) {
+                    return
                 }
-                showError(data.ErrorMsgs)
 
-            },
-            fail: function (ex) {
-                hideLoading()
-                showError(ex.reponseText)
-            }
+                showLoading()
+
+                var form = $("#Form").serialize()
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Edit")",
+                    data: form,
+                    success: function (data) {
+                        hideLoading()
+                        if (data.Success) {
+                            location.href = "@Url.Action("Index")"
+                        }
+                        showError(data.ErrorMsgs)
+
+                    },
+                    fail: function (ex) {
+                        hideLoading()
+                        showError(ex.reponseText)
+                    }
+                })
+            })
         })
-    })
     </script>
 }
-

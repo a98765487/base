@@ -33,6 +33,9 @@ main table th:first-child, main table tr > td:first-child {
 main table th:nth-child(2), main table tr > td:nth-child(2) {
     text-align: center;
 }
+main #CONTENT{
+    height:300px;
+}
 nav .navbar-collapse {
     align-items: flex-start !important;
 }

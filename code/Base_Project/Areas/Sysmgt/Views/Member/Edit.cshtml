@@ -82,11 +82,8 @@
 </div>
 
 @section script{
-    @{Html.RenderPartial("~/Areas/Sysmgt/Views/Shared/Common/_Js.cshtml", Model); }
     <script>
-        $(function(){
-            focusMenu("@ViewBag.ID")
-        })
+
     $("#Send").click(function (e) {
         e.preventDefault()
 
